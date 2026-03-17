@@ -6,6 +6,9 @@ const path = require('path');   // path nos ayuda a construir rutas de carpetas 
 // Creamos la "aplicación" de Express — es nuestro servidor
 const app = express();
 
+const cors = require('cors') // Importamos cors
+app.use(cors())               // Le decimos a Express que lo use
+
 // Le decimos al servidor que entienda JSON
 // Sin esto, no podría leer los datos que le mande el frontend
 app.use(express.json());
