@@ -5,5 +5,12 @@
     "url": "https://developer.mozilla.org",
     "category": "documentacion",
     "description": "La mejor documentación web del mundo"
+  },
+  {
+    "id": 1774006471984,
+    "title": "CSS Tricks",
+    "url": "https://css-tricks.com",
+    "category": "documentacion",
+    "description": "Trucos y guías de CSS para developers\n\n"
   }
 ]

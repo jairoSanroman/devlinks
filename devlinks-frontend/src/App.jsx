@@ -1,50 +1,86 @@
-// Importamos useState y useEffect de React
-// useState: guarda datos que pueden cambiar (como la lista de links)
-// useEffect: ejecuta código cuando el componente se carga
 import { useState, useEffect } from 'react'
-import axios from 'axios' // Nuestro mensajero para hablar con el backend
+import axios from 'axios'
+import LinkList from './components/LinkList'
+import LinkForm from './components/LinkForm'
+import SearchBar from './components/SearchBar'
 
-// La URL base de nuestra API
 const API_URL = 'http://localhost:3001/api/links'
 
 function App() {
-  // links: la lista de links que mostraremos
-  // setLinks: la función para actualizar esa lista
-  const [links, setLinks] = useState([])
-  
+  const [links, setLinks] = useState([])          // Todos los links
+  const [busqueda, setBusqueda] = useState('')     // Texto de búsqueda
+  const [categoria, setCategoria] = useState('')   // Categoría seleccionada
+
   useEffect(() => {
-  const obtenerLinks = async () => {
+    const obtenerLinks = async () => {
+      try {
+        const respuesta = await axios.get(API_URL)
+        setLinks(respuesta.data)
+      } catch (error) {
+        console.error('Error al obtener links:', error)
+      }
+    }
+    obtenerLinks()
+  }, [])
+
+  // Función para añadir un link nuevo
+  const handleAdd = async (formData) => {
     try {
-      const respuesta = await axios.get(API_URL)
-      setLinks(respuesta.data) // Guardamos los links en el estado
+      const respuesta = await axios.post(API_URL, formData)
+      setLinks([...links, respuesta.data])
     } catch (error) {
-      console.error('Error al obtener links:', error)
+      console.error('Error al añadir link:', error)
     }
   }
-  // Este código se ejecuta automáticamente cuando la app se carga
-  
-    obtenerLinks()
-  }, []) // El [] significa "ejecuta esto solo una vez al cargar"
 
-  // Función para obtener todos los links del backend
-  
+  // Función para borrar un link
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`${API_URL}/${id}`)
+      setLinks(links.filter(link => link.id !== id))
+    } catch (error) {
+      console.error('Error al borrar link:', error)
+    }
+  }
+
+  // Filtramos los links según búsqueda y categoría
+  // Esto se recalcula automáticamente cada vez que cambia links, busqueda o categoria
+  const linksFiltrados = links.filter(link => {
+    const coincideTexto = 
+      link.title.toLowerCase().includes(busqueda.toLowerCase()) ||
+      link.description?.toLowerCase().includes(busqueda.toLowerCase())
+
+    const coincideCategoria = 
+      categoria === '' || link.category === categoria
+
+    return coincideTexto && coincideCategoria
+  })
 
   return (
-    <div>
-      <h1>DevLinks 🔗</h1>
-      <p>Tu gestor de recursos para developers</p>
+    <div className="app">
+      <header className="app-header">
+        <h1>DevLinks 🔗</h1>
+        <p>Tu gestor de recursos para developers</p>
+      </header>
 
-      {/* Mostramos cuántos links hay */}
-      <p>Links guardados: {links.length}</p>
+      <main className="app-main">
+        {/* Formulario para añadir links */}
+        <LinkForm onAdd={handleAdd} />
 
-      {/* Recorremos el array de links y mostramos cada uno */}
-      {links.map(link => (
-        <div key={link.id}>
-          <h3>{link.title}</h3>
-          <a href={link.url} target="_blank">{link.url}</a>
-          <p>{link.description}</p>
-        </div>
-      ))}
+        {/* Buscador y filtros */}
+        <SearchBar 
+          onSearch={setBusqueda} 
+          onFilter={setCategoria} 
+        />
+
+        {/* Contador de links filtrados */}
+        <p className="links-count">
+          {linksFiltrados.length} {linksFiltrados.length === 1 ? 'link encontrado' : 'links encontrados'}
+        </p>
+
+        {/* Lista de links filtrados */}
+        <LinkList links={linksFiltrados} onDelete={handleDelete} />
+      </main>
     </div>
   )
 }
