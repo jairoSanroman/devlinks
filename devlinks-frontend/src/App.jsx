@@ -7,9 +7,11 @@ import SearchBar from './components/SearchBar'
 const API_URL = 'http://localhost:3001/api/links'
 
 function App() {
-  const [links, setLinks] = useState([])          // Todos los links
-  const [busqueda, setBusqueda] = useState('')     // Texto de búsqueda
-  const [categoria, setCategoria] = useState('')   // Categoría seleccionada
+  const [links, setLinks] = useState([])
+  const [busqueda, setBusqueda] = useState('')
+  const [categoria, setCategoria] = useState('')
+  // linkEditando guarda el link que estamos editando, o null si no hay ninguno
+  const [linkEditando, setLinkEditando] = useState(null)
 
   useEffect(() => {
     const obtenerLinks = async () => {
@@ -23,7 +25,7 @@ function App() {
     obtenerLinks()
   }, [])
 
-  // Función para añadir un link nuevo
+  // Añadir link nuevo
   const handleAdd = async (formData) => {
     try {
       const respuesta = await axios.post(API_URL, formData)
@@ -33,7 +35,21 @@ function App() {
     }
   }
 
-  // Función para borrar un link
+  // Guardar link editado
+  const handleEdit = async (formData) => {
+    try {
+      const respuesta = await axios.put(`${API_URL}/${linkEditando.id}`, formData)
+      // Reemplazamos el link antiguo por el actualizado en el estado
+      setLinks(links.map(link => 
+        link.id === linkEditando.id ? respuesta.data : link
+      ))
+      setLinkEditando(null) // Limpiamos el link en edición
+    } catch (error) {
+      console.error('Error al editar link:', error)
+    }
+  }
+
+  // Borrar link
   const handleDelete = async (id) => {
     try {
       await axios.delete(`${API_URL}/${id}`)
@@ -43,16 +59,13 @@ function App() {
     }
   }
 
-  // Filtramos los links según búsqueda y categoría
-  // Esto se recalcula automáticamente cada vez que cambia links, busqueda o categoria
+  // Filtrar links según búsqueda y categoría
   const linksFiltrados = links.filter(link => {
-    const coincideTexto = 
+    const coincideTexto =
       link.title.toLowerCase().includes(busqueda.toLowerCase()) ||
       link.description?.toLowerCase().includes(busqueda.toLowerCase())
-
-    const coincideCategoria = 
+    const coincideCategoria =
       categoria === '' || link.category === categoria
-
     return coincideTexto && coincideCategoria
   })
 
@@ -64,22 +77,33 @@ function App() {
       </header>
 
       <main className="app-main">
-        {/* Formulario para añadir links */}
-        <LinkForm onAdd={handleAdd} />
+        {/* Si hay un link en edición mostramos el form con sus datos,
+            si no mostramos el form vacío para añadir */}
+        {linkEditando ? (
+  <LinkForm
+    key={linkEditando.id}
+    onAdd={handleEdit}
+    linkEditando={linkEditando}
+    onCancelar={() => setLinkEditando(null)}
+  />
+) : (
+  <LinkForm onAdd={handleAdd} />
+)}
 
-        {/* Buscador y filtros */}
-        <SearchBar 
-          onSearch={setBusqueda} 
-          onFilter={setCategoria} 
+        <SearchBar
+          onSearch={setBusqueda}
+          onFilter={setCategoria}
         />
 
-        {/* Contador de links filtrados */}
         <p className="links-count">
           {linksFiltrados.length} {linksFiltrados.length === 1 ? 'link encontrado' : 'links encontrados'}
         </p>
 
-        {/* Lista de links filtrados */}
-        <LinkList links={linksFiltrados} onDelete={handleDelete} />
+        <LinkList
+          links={linksFiltrados}
+          onDelete={handleDelete}
+          onEdit={setLinkEditando}
+        />
       </main>
     </div>
   )

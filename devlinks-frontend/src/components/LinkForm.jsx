@@ -1,44 +1,45 @@
-// LinkForm maneja el formulario para añadir nuevos links
-// useState nos permite guardar lo que el usuario escribe en cada campo
-
 import { useState } from 'react'
 
-function LinkForm({ onAdd }) {
-  // Guardamos los valores del formulario en un objeto
-  const [formData, setFormData] = useState({
-    title: '',
-    url: '',
-    category: '',
-    description: ''
+function LinkForm({ onAdd, linkEditando, onCancelar }) {
+
+  // Inicializamos el formulario con los datos del link editando si existe
+  const [formData, setFormData] = useState(() => {
+    if (linkEditando) {
+      return {
+        title: linkEditando.title,
+        url: linkEditando.url,
+        category: linkEditando.category,
+        description: linkEditando.description
+      }
+    }
+    return { title: '', url: '', category: '', description: '' }
   })
 
-  // Esta función se ejecuta cada vez que el usuario escribe en un campo
   const handleChange = (e) => {
     setFormData({
-      ...formData,          // Mantenemos los valores anteriores
-      [e.target.name]: e.target.value  // Actualizamos solo el campo que cambió
+      ...formData,
+      [e.target.name]: e.target.value
     })
   }
 
-  // Esta función se ejecuta cuando el usuario envía el formulario
   const handleSubmit = (e) => {
-    e.preventDefault() // Evita que la página se recargue al enviar
+    e.preventDefault()
 
-    // Verificamos que los campos obligatorios estén rellenos
     if (!formData.title || !formData.url) {
       alert('El título y la URL son obligatorios')
       return
     }
 
-    onAdd(formData) // Llamamos a la función del padre con los datos
+    onAdd(formData)
 
-    // Limpiamos el formulario después de enviar
-    setFormData({ title: '', url: '', category: '', description: '' })
+    if (!linkEditando) {
+      setFormData({ title: '', url: '', category: '', description: '' })
+    }
   }
 
   return (
     <form onSubmit={handleSubmit} className="link-form">
-      <h2>➕ Añadir nuevo link</h2>
+      <h2>{linkEditando ? '✏️ Editar link' : '➕ Añadir nuevo link'}</h2>
 
       <div className="form-group">
         <label>Título *</label>
@@ -89,9 +90,21 @@ function LinkForm({ onAdd }) {
         />
       </div>
 
-      <button type="submit" className="btn-submit">
-        💾 Guardar link
-      </button>
+      <div className="form-buttons">
+        <button type="submit" className="btn-submit">
+          {linkEditando ? '💾 Guardar cambios' : '💾 Guardar link'}
+        </button>
+
+        {linkEditando && (
+          <button
+            type="button"
+            onClick={onCancelar}
+            className="btn-cancelar"
+          >
+            ❌ Cancelar
+          </button>
+        )}
+      </div>
     </form>
   )
 }
