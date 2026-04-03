@@ -4,6 +4,8 @@ import LinkList from './components/LinkList'
 import LinkForm from './components/LinkForm'
 import SearchBar from './components/SearchBar'
 import Notification from './components/Notification'
+import './App.css'
+
 
 const API_URL = 'http://localhost:3001/api/links'
 
@@ -27,7 +29,7 @@ function App() {
       try {
         const respuesta = await axios.get(API_URL)
         setLinks(respuesta.data)
-      } catch (error) {
+      } catch (_error) {
         mostrarNotificacion('error', 'No se pudieron cargar los links. ¿Está el servidor corriendo?')
       } finally {
         setCargando(false) // Desactivamos la carga pase lo que pase
@@ -41,7 +43,7 @@ function App() {
       const respuesta = await axios.post(API_URL, formData)
       setLinks([...links, respuesta.data])
       mostrarNotificacion('exito', 'Link añadido correctamente')
-    } catch (error) {
+    } catch (_error) {
       mostrarNotificacion('error', 'Error al añadir el link')
     }
   }
@@ -54,7 +56,7 @@ function App() {
       ))
       setLinkEditando(null)
       mostrarNotificacion('exito', 'Link actualizado correctamente')
-    } catch (error) {
+    } catch (_error) {
       mostrarNotificacion('error', 'Error al actualizar el link')
     }
   }
@@ -64,7 +66,7 @@ function App() {
       await axios.delete(`${API_URL}/${id}`)
       setLinks(links.filter(link => link.id !== id))
       mostrarNotificacion('exito', 'Link eliminado correctamente')
-    } catch (error) {
+    } catch (_error) {
       mostrarNotificacion('error', 'Error al eliminar el link')
     }
   }
