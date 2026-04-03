@@ -76,8 +76,10 @@ El servidor estará disponible en `http://localhost:3001`
 
 ## 📅 Estado
 
-🚧 Proyecto actualmente en desarrollo — próximamente disponible con deploy.
+## 🌐 Demo en vivo
 
+- Frontend: https://devlinks-nine-iota.vercel.app
+- Backend: https://devlinks-production.up.railway.app
 ```
 
 
