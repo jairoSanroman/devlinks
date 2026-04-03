@@ -7,7 +7,9 @@ const path = require('path');   // path nos ayuda a construir rutas de carpetas 
 const app = express();
 
 const cors = require('cors') // Importamos cors
-app.use(cors())               // Le decimos a Express que lo use
+app.use(cors({
+  origin: '*' // Acepta peticiones de cualquier origen
+}))             // Le decimos a Express que lo use
 
 // Le decimos al servidor que entienda JSON
 // Sin esto, no podría leer los datos que le mande el frontend
@@ -105,7 +107,9 @@ app.delete('/api/links/:id', (req, res) => {
 // -------------------------------------------
 // ARRANCAR EL SERVIDOR
 // -------------------------------------------
-const PORT = 3001; // El "puerto" es como la puerta de entrada al servidor
+// En Railway el puerto lo asigna el servidor automáticamente
+// Si no hay variable de entorno, usamos 3001 para desarrollo local
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);
 });

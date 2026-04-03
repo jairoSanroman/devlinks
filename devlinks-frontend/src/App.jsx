@@ -7,7 +7,7 @@ import Notification from './components/Notification'
 import './App.css'
 
 
-const API_URL = 'http://localhost:3001/api/links'
+const API_URL = 'https://devlinks-production.up.railway.app/api/links'
 
 function App() {
   const [links, setLinks] = useState([])
