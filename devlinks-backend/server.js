@@ -110,6 +110,6 @@ app.delete('/api/links/:id', (req, res) => {
 // En Railway el puerto lo asigna el servidor automáticamente
 // Si no hay variable de entorno, usamos 3001 para desarrollo local
 const PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`✅ Servidor corriendo en http://localhost:${PORT}`);
 });
