@@ -2,6 +2,8 @@
 
 > Gestor de recursos y links útiles para developers. Guarda, organiza y encuentra tus mejores referencias en un solo lugar.
 
+![DevLinks App](assets/DevLinks.png)
+
 ![Estado](https://img.shields.io/badge/estado-en%20construcción-yellow)
 ![Stack](https://img.shields.io/badge/stack-React%20%2B%20Node.js-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
