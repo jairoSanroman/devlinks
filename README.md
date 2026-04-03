@@ -2,11 +2,11 @@
 
 > Gestor de recursos y links útiles para developers. Guarda, organiza y encuentra tus mejores referencias en un solo lugar.
 
-![DevLinks App](assets/DevLinks.png)
-
-![Estado](https://img.shields.io/badge/estado-en%20construcción-yellow)
+![Estado](https://img.shields.io/badge/estado-en%20desarrollo-yellow)
 ![Stack](https://img.shields.io/badge/stack-React%20%2B%20Node.js-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
+
+![DevLinks App](assets/DevLinks.png)
 
 ---
 
@@ -25,6 +25,7 @@ Como developer, acumulamos cientos de links útiles: documentación, tutoriales,
 - 🔍 Búsqueda en tiempo real
 - ✏️ Editar y eliminar recursos
 - 💾 Persistencia de datos
+- 🔔 Notificaciones de éxito y error
 
 ---
 
@@ -32,7 +33,7 @@ Como developer, acumulamos cientos de links útiles: documentación, tutoriales,
 
 | Capa | Tecnología | Por qué |
 |------|-----------|---------|
-| Frontend | React | Componentes reutilizables y UI reactiva |
+| Frontend | React + Vite | Componentes reutilizables y UI reactiva |
 | Backend | Node.js + Express | API REST rápida y sencilla |
 | Base de datos | JSON | Ligera, sin configuración |
 | Deploy Frontend | Vercel | Deploy automático desde GitHub |
@@ -40,28 +41,41 @@ Como developer, acumulamos cientos de links útiles: documentación, tutoriales,
 
 ---
 
+## 🌐 Demo en vivo
+
+- 🌐 **App:** https://devlinks-nine-iota.vercel.app
+- ⚙️ **API:** https://devlinks-production.up.railway.app/api/links
+
+---
+
 ## 🚀 Cómo ejecutarlo en local
 
 ### Requisitos
-- Node.js v18 o superior
+- Node.js v20 o superior
 - Git
 
 ### Instalación
 ```bash
 # Clona el repositorio
 git clone https://github.com/jairoSanroman/devlinks.git
-
-# Entra al backend
-cd devlinks/devlinks-backend
-
-# Instala dependencias
-npm install
-
-# Arranca el servidor
-npm run dev
+cd devlinks
 ```
 
-El servidor estará disponible en `http://localhost:3001`
+**Backend:**
+```bash
+cd devlinks-backend
+npm install
+npm run dev
+# Servidor en http://localhost:3001
+```
+
+**Frontend:**
+```bash
+cd devlinks-frontend
+npm install
+npm run dev
+# App en http://localhost:5173
+```
 
 ---
 
@@ -76,20 +90,8 @@ El servidor estará disponible en `http://localhost:3001`
 
 ---
 
-## 📅 Estado
-
-## 🌐 Demo en vivo
-
-- 🌐 App: https://devlinks-nine-iota.vercel.app
-- ⚙️ API: https://devlinks-production.up.railway.app/api/links
-```
-
-
 ## 👤 Autor
 
-**Jairo Sanromán**  
-[GitHub](https://github.com/jairoSanroman)
-```
+**Jairo Sanromán**
 
----
-
+[GitHub](https://github.com/jairoSanroman) · [LinkedIn](https://www.linkedin.com/in/jairo-sanromán-62a2502a9)
