@@ -78,8 +78,8 @@ El servidor estará disponible en `http://localhost:3001`
 
 ## 🌐 Demo en vivo
 
-- Frontend: https://devlinks-nine-iota.vercel.app
-- Backend: https://devlinks-production.up.railway.app
+- 🌐 App: https://devlinks-nine-iota.vercel.app
+- ⚙️ API: https://devlinks-production.up.railway.app/api/links
 ```
 
 
