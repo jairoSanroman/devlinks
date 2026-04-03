@@ -18,7 +18,10 @@ app.use(express.json());
 // ¿Dónde está nuestra "base de datos"?
 // __dirname = la carpeta donde está este archivo (devlinks-backend)
 const DATA_FILE = path.join(__dirname, 'data', 'links.json');
-
+// Si el archivo no existe, lo creamos vacío
+if (!fs.existsSync(DATA_FILE)) {
+  fs.writeFileSync(DATA_FILE, '[]');
+}
 // -------------------------------------------
 // FUNCIÓN AUXILIAR: Leer los links del archivo
 // -------------------------------------------
